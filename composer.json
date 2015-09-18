@@ -1,0 +1,19 @@
+{
+    "name": "pavelmics/yii-tactician",
+    "description": "Yii adapter for league/tactician command bus pattern implimentation",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pavel Mikushin",
+            "email": "pavelmics@gmail.com"
+        }
+    ],
+    "require": {
+        "league/tactician": "0.6.*"
+        , "yiisoft/yii": ">=1.1.15"
+    },
+    
+    "require-dev": {
+        "phpunit/phpunit": "4.8.*"
+    }
+}
