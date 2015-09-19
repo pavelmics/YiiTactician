@@ -1,12 +1,15 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Pavel
- * Date: 18.09.2015
- * Time: 21:39
- */
 class TestCommand
-{}
+{
+    const EXPECTED_RESULT = 'some-result';
+}
 
 class TestCommandWithoutHandler {}
+
+class TestCommandWithoutHandlerMethod {}
+
+class TestControllerBaseCommand extends YiiTactician\ControllerBaseCommand
+{
+    const EXPECTED_RESULT = 'some-result';
+}

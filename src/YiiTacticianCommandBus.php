@@ -5,7 +5,6 @@ namespace YiiTactician;
 use League\Tactician\CommandBus as LeagueCommandBus;
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
-use League\Tactician\Handler\MethodNameInflector\HandleInflector;
 
 
 class YiiTacticianCommandBus extends \CApplicationComponent
@@ -32,7 +31,7 @@ class YiiTacticianCommandBus extends \CApplicationComponent
 		$handlerMiddleware = new CommandHandlerMiddleware(
 			new ClassNameExtractor(),
 			new YiiHandlerLocator($this->handlersPath),
-			new HandleInflector()
+			new YiiHandleInflector()
 		);
 
 		$this->_commandBus = new LeagueCommandBus([$handlerMiddleware]);
@@ -46,11 +45,11 @@ class YiiTacticianCommandBus extends \CApplicationComponent
 		$callable = [$this->_commandBus, $name];
 
 		if (is_callable($callable)) {
-			call_user_func_array($callable, $parameters);
+			return call_user_func_array($callable, $parameters);
 		} else {
 			// if $name is not function of CommandBus,
 			// just use regular Yii methods to handle __call
-			parent::__call($name, $parameters);
+			return parent::__call($name, $parameters);
 		}
 	}
 }

@@ -15,7 +15,9 @@ class YiiTactitianTest extends CTestCase
 
 	public function testCommand()
 	{
-		Yii::app()->commandBus->handle(new TestCommand());
+        $this->assertEquals(TestCommand::EXPECTED_RESULT
+            , Yii::app()->commandBus->handle(new TestCommand())
+        );
 	}
 
 	/**
@@ -26,16 +28,45 @@ class YiiTactitianTest extends CTestCase
 		Yii::app()->commandBus->handle(new TestCommandWithoutHandler());
 	}
 
-	public function testCommandIsExecuted()
+    /**
+     * @expectedException League\Tactician\Exception\CanNotInvokeHandlerException
+     */
+	public function testCommandWithoutHandlerMethod()
 	{
-		$mock = $this->getMockBuilder('nonexistant')
-			->setMockClassName('TestCommandWithoutHandlerHandler')
-			->setMethods(['handle'])
-			->disableAutoload()
-			->getMock();
-
-		// makes sure that method handle is executed
-		$mock->expects($this->once())->method('handle');
-		Yii::app()->commandBus->handle(new TestCommandWithoutHandler());
+		Yii::app()->commandBus->handle(new TestCommandWithoutHandlerMethod());
 	}
+
+    // ControllerBaseCommand
+
+    public function testControllerBaseCommand()
+    {
+        $this->assertEquals(TestControllerBaseCommand::EXPECTED_RESULT
+            , Yii::app()->commandBus->handle(new TestControllerBaseCommand())
+        );
+
+        // test existed method method
+        $command = new TestControllerBaseCommand([], 'customHandler');
+        $this->assertEquals(TestControllerBaseCommand::EXPECTED_RESULT
+            , Yii::app()->commandBus->handle($command)
+        );
+
+        // test params passing to the commandHandler
+        $params = ['test' => 1];
+        $command = new TestControllerBaseCommand($params
+            , 'returnCommandParamsHandler');
+        $result = Yii::app()->commandBus->handle($command);
+        $this->assertEquals($params, $result);
+    }
+
+    /**
+     * @expectedException League\Tactician\Exception\CanNotInvokeHandlerException
+     */
+    public function testInvokeNotExistedMethodAtControllerBaseCommandHandler()
+    {
+        Yii::app()->commandBus->handle(new TestControllerBaseCommand(
+            []
+            , 'notExitsMethod')
+        );
+    }
+
 }
