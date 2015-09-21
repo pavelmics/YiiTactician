@@ -1,11 +1,11 @@
 
 #Yii-Tactician
-Yii addapter for [this library](https://github.com/thephpleague/tactician)! It provides an easy way to use the command bus pattern in Yii-based apps.
+Yii-Tactician is yii addapter for [Tactician command bus library](https://tactician.thephpleague.com/). It provides an easy way to use the command bus pattern in Yii-based apps.
 
 ##Installation
 You can install Yii-Tactician via composer by running
 `composer require pavelmics/yii-tactician`
-or add 
+or just add 
 `"pavelmics/yii-tactician": "0.1.1"`
 to your composer.json file.
 
@@ -91,8 +91,33 @@ public function actionCreateSomething()
 }
 ```
 
-###Controller based commands
-todo
+###Controller based handlers
+Sometimes we need handle one command in several different ways. Let's say we need to register users. Sometimes users register by email and sometimes by phone number. We need to handle register command almost the same but at the same time a bit different.
+To achive this we can define several handler-functions in handler class (like in standart Yii controller). For example:
+```
+class RegisterCommandHandler
+{
+	public function byPhone($command)
+    {/* code to register by phone */}
+    
+    public function byEmail($command)
+    {/* code to register by email */}
+}
+```
+And then use `YiiTactician\ControllerBaseCommand` to define your command class:
+```
+class RegisterCommand extends YiiTactician\ControllerBaseCommand 
+{}
+```
+Now you can do something like this:
+```
+$params = ['email' => 'test@test.com', 'password' => 'pass'];
+$command = new RegisterCommand($params, 'byEmail');
+\Yii::app()->commandBus->handle($command);
 
-
-
+// or
+$params = ['phone' => '99-99-99-99'];
+$command = new RegisterCommand($params);
+$command->setHandlerMethod('byPhone');
+\Yii::app()->commandBus->handle($command);
+```
