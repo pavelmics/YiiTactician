@@ -61,19 +61,19 @@ class TestCommand
     }
 }
 ```
-Then, define a handler class under one of your handlers path (see configuration section of this readme). The name of handler class must be the same as the name of command class suffixed with "Handler". Аor example for class `TestCommand` we need to define `TestCommandHandler` class:
+Then, define a handler class under one of your handlers path (see configuration section of this readme). The name of handler class must be the same as the name of command class suffixed with "Handler". For example for class `TestCommand` we need to define `TestCommandHandler` class:
 
 ```
 class TestCommandHandler
 {
 	public function handle(TestCommand $command)
     {
-    	// do command staff hire!
+    	// do command stuff hire!
         // we can use $command->someParam and $this->someOtherParam
     }
 }
 ```
-And now we can use this command in controllers (or wherever you want):
+Now we can use this command in controllers (or wherever you want):
 ```
 ...
 public function actionCreateSomething()
