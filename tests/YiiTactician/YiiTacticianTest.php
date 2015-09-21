@@ -4,7 +4,7 @@ use YiiTactician\YiiTacticianCommandBus;
 include('TestCommands.php');
 
 
-class YiiTactitianTest extends CTestCase
+class YiiTacticianTest extends CTestCase
 {
 	public function testComponentExist()
 	{

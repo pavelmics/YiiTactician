@@ -10,7 +10,7 @@ return [
 		'commandBus' => [
 			'class' => 'YiiTactician\YiiTacticianCommandBus',
 			'handlersPath' => [
-				'app.YiiTactation.handlers'
+				'app.YiiTactician.handlers'
 			]
 		],
 	],

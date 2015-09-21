@@ -1,5 +1,5 @@
 {
-    "name": "pavelmics/YiiTactician",
+    "name": "pavelmics/yii-tactician",
     "homepage": "https://github.com/pavelmics/YiiTactician",
     "description": "Yii adapter for league/tactician command bus pattern implimentation",
     "license": "MIT",
